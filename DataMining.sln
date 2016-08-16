@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataMiningModel", "DataMini
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthorisationService", "AuthorisationService\AuthorisationService.csproj", "{46E356F1-0623-448E-9B28-9911E85E8DC5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataMiningViewModel", "DataMiningViewModel\DataMiningViewModel.csproj", "{9CC02142-B4E7-4E8B-BD2F-1F7A97645397}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{46E356F1-0623-448E-9B28-9911E85E8DC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{46E356F1-0623-448E-9B28-9911E85E8DC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{46E356F1-0623-448E-9B28-9911E85E8DC5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9CC02142-B4E7-4E8B-BD2F-1F7A97645397}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CC02142-B4E7-4E8B-BD2F-1F7A97645397}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CC02142-B4E7-4E8B-BD2F-1F7A97645397}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CC02142-B4E7-4E8B-BD2F-1F7A97645397}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

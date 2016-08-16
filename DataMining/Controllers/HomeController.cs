@@ -4,14 +4,16 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using DataMiningModel;
+using DataMiningModel.Algorithms;
+using DataMiningModel.DataForResearching;
 
 namespace DataMining.Controllers
 {
     public class HomeController : Controller
     {
-        private DataMiningService.IDataMiningService _dataMiningService = new DataMiningService.DataMiningService();
+        private readonly DataMiningService.IDataMiningService _dataMiningService = new DataMiningService.DataMiningService();
 
-        private AuthorisationService.IAuthorisationService _authorisationService =
+        private readonly AuthorisationService.IAuthorisationService _authorisationService =
             new AuthorisationService.AuthorisationService();
 
         [HttpGet]
@@ -48,6 +50,17 @@ namespace DataMining.Controllers
         }
 
         [HttpPost]
+        public void Init()
+        {
+            var cookie = Request.Cookies.Get("auth");
+            if (cookie != null)
+            {
+                var guid = new Guid(cookie.Value);
+                _dataMiningService.Init(guid);
+            }
+        }
+
+        [HttpPost]
         public void CreateResearch(string name, string description)
         {
             var cookie = Request.Cookies.Get("auth");
@@ -70,13 +83,13 @@ namespace DataMining.Controllers
         }
 
         [HttpPost]
-        public void SetAlgorithm(int reserchId, int algorithmId)
+        public void SetAlgorithm(int researchId, int algorithmId)
         {
             var cookie = Request.Cookies.Get("auth");
             if (cookie != null)
             {
                 var guid = new Guid(cookie.Value);
-                _dataMiningService.SetAlgorithm(guid, reserchId, algorithmId);
+                _dataMiningService.SetAlgorithm(guid, researchId, algorithmId);
             }
         }
 
@@ -124,6 +137,8 @@ namespace DataMining.Controllers
             }
         }
 
+        #region Geters
+
         [HttpPost]
         public JsonResult GetResearches()
         {
@@ -134,10 +149,155 @@ namespace DataMining.Controllers
                 var guid = new Guid(cookie.Value);
                 researches = _dataMiningService.GetResearches(guid);
             }
-            var jsonResult = new JsonResult();
-            jsonResult.Data = researches;
+            var jsonResult = new JsonResult()
+            {
+                Data = researches
+            };
             return jsonResult;
         }
+
+        [HttpPost]
+        public JsonResult GetAlgorithms()
+        {
+            var cookie = Request.Cookies.Get("auth");
+            var algorithms = new List<Algorithm>();
+
+            if (cookie != null)
+            {
+                var guid = new Guid(cookie.Value);
+                algorithms = _dataMiningService.GetAlgorithms(guid);
+            }
+
+            var jsonResult = new JsonResult()
+            {
+                Data = algorithms
+            };
+
+            return jsonResult;
+        }
+
+        [HttpPost]
+        public JsonResult GetAlgorithmById(int researchId)
+        {
+            var cookie = Request.Cookies.Get("auth");
+            Algorithm algorithm = null;
+
+            if (cookie != null)
+            {
+                var guid = new Guid(cookie.Value);
+                algorithm = _dataMiningService.GetAlgorithmById(guid, researchId);
+            }
+
+            var jsonResult = new JsonResult()
+            {
+                Data = algorithm
+            };
+
+            return jsonResult;
+        }
+
+        [HttpPost]
+        public JsonResult GetInputDatas(int inputDataId)
+        {
+            var cookie = Request.Cookies.Get("auth");
+            var inputData = new InputData();
+
+            if (cookie != null)
+            {
+                var guid = new Guid(cookie.Value);
+                inputData = _dataMiningService.GetInputDataById(guid,inputDataId);
+            }
+
+            var jsonResult = new JsonResult()
+            {
+                Data = inputData
+            };
+
+            return jsonResult;
+        }
+
+        [HttpPost]
+        public JsonResult GetInputDatas()
+        {
+            var cookie = Request.Cookies.Get("auth");
+            var inputData = new List<InputData>();
+
+            if (cookie != null)
+            {
+                var guid = new Guid(cookie.Value);
+                inputData = _dataMiningService.GetInputDatas(guid);
+            }
+
+            var jsonResult = new JsonResult()
+            {
+                Data = inputData
+            };
+
+            return jsonResult;
+        }
+
+        [HttpPost]
+        public JsonResult GetOutputDatas()
+        {
+            var cookie = Request.Cookies.Get("auth");
+            var outputData = new List<OutputData>();
+
+            if (cookie != null)
+            {
+                var guid = new Guid(cookie.Value);
+                outputData = _dataMiningService.GetOutputDatas(guid);
+            }
+
+            var jsonResult = new JsonResult()
+            {
+                Data = outputData
+            };
+
+            return jsonResult;
+        }
+
+        [HttpPost]
+        public JsonResult GetInputDataById(int inputDataId)
+        {
+            throw new NotImplementedException();
+            var cookie = Request.Cookies.Get("auth");
+            var inputData = new InputData();
+
+            if (cookie != null)
+            {
+                var guid = new Guid(cookie.Value);
+                inputData = _dataMiningService.GetInputDataById(guid, inputDataId);
+            }
+
+            var jsonResult = new JsonResult()
+            {
+                Data = inputData
+            };
+
+            return jsonResult;
+        }
+
+        [HttpPost]
+        public JsonResult GetOutputDataById(int outputDataId)
+        {
+            var cookie = Request.Cookies.Get("auth");
+            var outputData = new OutputData();
+
+            if (cookie != null)
+            {
+                var guid = new Guid(cookie.Value);
+                outputData = _dataMiningService.GetOutputDataById(guid, outputDataId);
+            }
+
+            var jsonResult = new JsonResult()
+            {
+                Data = outputData
+            };
+
+            return jsonResult;
+        }
+
+        #endregion
     }
 
 

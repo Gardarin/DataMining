@@ -16,7 +16,7 @@ namespace DataBaseService
     {
 
         [OperationContract]
-        string GetData(int value);
+        void Init(Guid sessionId);
 
         [OperationContract]
         void CreateResearch(Guid sessionId, string name, string description);
@@ -50,7 +50,13 @@ namespace DataBaseService
         List<Algorithm> GetAlgorithms(Guid sessionId);
 
         [OperationContract]
-        Algorithm GetAlgorithmById(Guid sessionId, int algorithmId);
+        Algorithm GetAlgorithmById(Guid sessionId, int researchId);
+
+        [OperationContract]
+        List<InputData> GetInputDatas(Guid sessionId);
+
+        [OperationContract]
+        List<OutputData> GetOutputDatas(Guid sessionId);
 
         [OperationContract]
         InputData GetInputDataById(Guid sessionId, int inputDataId);

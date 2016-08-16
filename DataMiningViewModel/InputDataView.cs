@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataMiningModel.Algorithms
+namespace DataMiningViewModel
 {
-    public class AprioriAlgorithm:Algorithm
+    class InputDataView
     {
+        public int Id { get; set; }
+        public string Name { get; set; }
     }
 }

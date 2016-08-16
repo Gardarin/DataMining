@@ -17,9 +17,9 @@ namespace DataMiningService
     {
         private readonly DataBaseService.IDataBaseService _dataBaseService = new DataBaseService.DataBaseService();
 
-        public string GetData(int value)
+        public void Init(Guid sessionId)
         {
-            return string.Format("You entered: {0}", value);
+            _dataBaseService.Init(sessionId);
         }
 
         public void CreateResearch(Guid sessionId, string name, string description)
@@ -76,9 +76,19 @@ namespace DataMiningService
             return _dataBaseService.GetAlgorithms(sessionId);
         }
 
-        public Algorithm GetAlgorithmById(Guid sessionId, int algorithmId)
+        public Algorithm GetAlgorithmById(Guid sessionId, int researchId)
         {
-            return _dataBaseService.GetAlgorithmById(sessionId, algorithmId);
+            return _dataBaseService.GetAlgorithmById(sessionId, researchId);
+        }
+
+        public List<InputData> GetInputDatas(Guid sessionId)
+        {
+            return _dataBaseService.GetInputDatas(sessionId);
+        }
+
+        public List<OutputData> GetOutputDatas(Guid sessionId)
+        {
+            return _dataBaseService.GetOutputDatas(sessionId);
         }
 
         public InputData GetInputDataById(Guid sessionId, int inputDataId)

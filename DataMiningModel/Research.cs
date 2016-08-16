@@ -22,11 +22,11 @@ namespace DataMiningModel
 
         public void Processing()
         {
-            if (Algorithm != null)
+            if (Algorithm == null)
             {
                 throw new NullReferenceException();
             }
-            if (InputData != null)
+            if (InputData == null)
             {
                 throw new NullReferenceException();
             }

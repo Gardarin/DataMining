@@ -16,9 +16,29 @@ namespace DataBaseService
     {
         private readonly DataMiningContext _dataMiningContext = new DataMiningContext();
 
-        public string GetData(int value)
+        public void Init(Guid sessionId)
         {
-            return string.Format("You entered: {0}", value);
+            var alg = new DataMiningModel.Algorithms.AprioriAlgorithm()
+            {
+                Name = "Apriori",
+                Description = "tet description"
+            };
+            _dataMiningContext.Algorithms.Add(alg);
+            UsingAlgoritm ua = new UsingAlgoritm()
+            {
+                CurentAlgoritm = _dataMiningContext.Algorithms.FirstOrDefault(x => x.Name == "Apriori")
+            };
+            var user = _dataMiningContext.Users.Include("Researches").Include("UsingAlgoritms.CurentAlgoritm").FirstOrDefault(x => x.SessionId == sessionId);
+            if (user == null)
+            {
+                return;
+            }
+            if (user.UsingAlgoritms == null)
+            {
+                user.UsingAlgoritms = new List<UsingAlgoritm>();
+            }
+            user.UsingAlgoritms.Add(ua);
+            _dataMiningContext.SaveChanges();
         }
 
         public void CreateResearch(Guid sessionId, string name, string description)
@@ -221,23 +241,51 @@ namespace DataBaseService
             return algorithms;
         }
 
-        public Algorithm GetAlgorithmById(Guid sessionId, int algorithmId)
+        public Algorithm GetAlgorithmById(Guid sessionId, int researchId)
         {
             if (IsEmpty(sessionId))
             {
                 return null;
             }
-            var user = _dataMiningContext.Users.Include("UsingAlgoritms").FirstOrDefault(x => x.SessionId == sessionId);
-            if (user == null || user.UsingAlgoritms == null)
+            var user = _dataMiningContext.Users.Include("Researches.Algorithm").FirstOrDefault(x => x.SessionId == sessionId);
+            if (user == null || user.Researches == null)
             {
                 return null;
             }
-            var ua = user.UsingAlgoritms.FirstOrDefault(x => x.CurentAlgoritm.AlgorithmId == algorithmId);
+            var ua = user.Researches.FirstOrDefault(x => x.ResearchId == researchId);
             if (ua == null)
             {
                 return null;
             }
-            return ua.CurentAlgoritm;
+            return ua.Algorithm;
+        }
+
+        public List<InputData> GetInputDatas(Guid sessionId)
+        {
+            if (IsEmpty(sessionId))
+            {
+                return null;
+            }
+            var user = _dataMiningContext.Users.Include("InputDatas").FirstOrDefault(x => x.SessionId == sessionId);
+            if (user == null || user.InputDatas == null)
+            {
+                return null;
+            }
+            return user.InputDatas;
+        }
+
+        public List<OutputData> GetOutputDatas(Guid sessionId)
+        {
+            if (IsEmpty(sessionId))
+            {
+                return null;
+            }
+            var user = _dataMiningContext.Users.Include("OutputDatas").FirstOrDefault(x => x.SessionId == sessionId);
+            if (user == null || user.OutputDatas == null)
+            {
+                return null;
+            }
+            return user.OutputDatas;
         }
 
         public InputData GetInputDataById(Guid sessionId, int inputDataId)

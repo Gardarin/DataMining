@@ -3,25 +3,47 @@
     <meta charset="utf-8">
 </head>
 <body>
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-</div>
-<div class="row" ng-controller="UserController">
-    <div class="col-md-4">
+<div class="row" ng-controller="ResearchController">
+    <div>
         <div>
             <h3>@ViewBag.Title</h3>
         </div>
         <button type="submit" ng-click="GetResearches()" class="btn btn-success">Get</button>
     </div>
-    <div ng-repeat="item in list">
-        <div>Ответ:</div>
-        <p>{{item.Name}}</p>
-        <p>{{item.Description}}</p>
-        <p>{{item.CurentState}}</p>
-    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Number</th>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>CurentState</th>
+                <th>Algorithm</th>
+                <th>InputData</th>
+                <th>OutputData</th>
+            </tr>
+        </thead>
+        <tr ng-repeat="item in listResearch" ng-class="$odd ? 'odd' : 'even'">
+            <td>{{$index + 1}}</td>
+            <td>{{item.ResearchId}}</td>
+            <td>{{item.Name}}</td>
+            <td>{{item.Description}}</td>
+            <td>{{item.CurentState}}</td>
+            <td ng-controller="AlgorithmController"><button type="submit" ng-click="GetAlgorithmById(item.ResearchId)" class="btn btn-success">Get {{SelectedAlgorithm}}</button></td>
+            <td ng-controller="DataController"><button type="submit" ng-click="GetResearches()" class="btn btn-success">Get</button></td>
+            <td ng-controller="DataController"><button type="submit" ng-click="GetResearches()" class="btn btn-success">Get</button></td>
+        </tr>
+    </table>
 </div>
+<div class="row" ng-controller="UserController">
+    <button type="submit" ng-click="Init()" class="btn btn-success">Init</button>
+</div>
+    
 
-<script src="~/Scripts/angular.min.js"></script>
-<script src="~/Scripts/IndexModules/IndexController.js"></script>
+        <script src="~/Scripts/angular.min.js"></script>
+        <script src="~/Scripts/IndexModules/IndexController.js"></script>
+        <script src="~/Scripts/IndexModules/AlgorithmController.js"></script>
+        <script src="~/Scripts/IndexModules/DataController.js"></script>
+        <script src="~/Scripts/IndexModules/ResearchController.js"></script>
 </body>
 </html>
